@@ -1,4 +1,4 @@
-const address = process.env.REACT_APP_LOCAL_TOKEN_ADDR
+const address = process.env.NEXT_PUBLIC_LOCAL_TOKEN_ADDR
 const abi     = [
   {
     'anonymous':false,
@@ -1124,7 +1124,7 @@ const abi     = [
 ]
 
 const dataProvider = {
-  address: process.env.REACT_APP_LOCAL_DATA_PROVIDER_ADDR,
+  address: process.env.NEXT_PUBLIC_LOCAL_DATA_PROVIDER_ADDR,
   abi: [
     {
       'inputs': [],
@@ -1401,7 +1401,7 @@ const dataProvider = {
 }
 
 const distributionManager = {
-  address: process.env.REACT_APP_LOCAL_DATA_DISTRIBUTION_ADDR,
+  address: process.env.NEXT_PUBLIC_LOCAL_DATA_DISTRIBUTION_ADDR,
   abi: [
     {
       'inputs': [

@@ -1,4 +1,4 @@
-const address = process.env.REACT_APP_LOCAL_TOKEN_ADDR
+const address = process.env.NEXT_PUBLIC_LOCAL_TOKEN_ADDR
 const abi     = [
   {
     'inputs': [

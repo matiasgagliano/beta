@@ -5,7 +5,7 @@ import * as Sentry from '@sentry/react'
 import '../styles/app.scss'
 import { dsn, integrations } from '../src/data/sentry'
 
-const release = process.env.REACT_APP_SENTRY_RELEASE
+const release = process.env.NEXT_PUBLIC_SENTRY_RELEASE
 
 if (release) {
   Sentry.init({ dsn, release, integrations, tracesSampleRate: 1.0 })
@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps }) {
 }
 
 MyApp.propTypes = {
-  Component: PropTypes.object.isRequired,
+  Component: PropTypes.func.isRequired,
   pageProps: PropTypes.object.isRequired
 }
 

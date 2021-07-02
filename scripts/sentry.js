@@ -2,10 +2,10 @@ const SentryCli = require('@sentry/cli')
 
 const createRelease = async () => {
   const cli     = new SentryCli()
-  const release = process.env.REACT_APP_SENTRY_RELEASE
+  const release = process.env.NEXT_PUBLIC_SENTRY_RELEASE
 
   if (! release) {
-    console.warn('REACT_APP_SENTRY_RELEASE is not set')
+    console.warn('NEXT_PUBLIC_SENTRY_RELEASE is not set')
     return
   }
 

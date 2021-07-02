@@ -1,4 +1,4 @@
-const address = process.env.REACT_APP_LOCAL_VAULT_ADDR
+const address = process.env.NEXT_PUBLIC_LOCAL_VAULT_ADDR
 const abi     = [
   {
     'inputs': [
@@ -500,11 +500,11 @@ const abi     = [
 ]
 
 const aToken = {
-  address: process.env.REACT_APP_LOCAL_A_TOKEN_ADDR
+  address: process.env.NEXT_PUBLIC_LOCAL_A_TOKEN_ADDR
 }
 
 const debtToken = {
-  address: process.env.REACT_APP_LOCAL_DEBT_TOKEN_ADDR
+  address: process.env.NEXT_PUBLIC_LOCAL_DEBT_TOKEN_ADDR
 }
 
 const vault = { abi, address, aToken, debtToken }
