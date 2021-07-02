@@ -163,12 +163,8 @@ const getCalls = (address, chainId, ethcallProvider, v) => {
 }
 
 export async function fetchVaultsData (address, chainId, provider, web3, dispatch) {
-  // Mumbai address
-  setMulticallAddress(80001, '0x5a0439824F4c0275faa88F2a7C5037F9833E29f1')
-  // Polygon address
-  setMulticallAddress(137, '0xc4f1501f337079077842343Ce02665D8960150B0')
   // Localhost address
-  setMulticallAddress(1337, process.env.REACT_APP_LOCAL_MULTICALL_ADDR)
+  setMulticallAddress(1337, process.env.NEXT_PUBLIC_LOCAL_MULTICALL_ADDR)
 
   const ethersProvider  = getEthersProvider(provider, chainId)
   const ethcallProvider = new Provider(ethersProvider)
