@@ -7,7 +7,7 @@ import Vaults from './vaults'
 import Toasts from './toasts'
 import Footer from './footer'
 
-const App = props => {
+const App = () => {
   return (
     <div className="container">
       <Header />

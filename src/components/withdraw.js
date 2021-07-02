@@ -203,14 +203,15 @@ const Withdraw = props => {
 }
 
 Withdraw.propTypes = {
-  address:       PropTypes.string.isRequired,
-  apy:           PropTypes.number.isRequired,
-  decimals:      PropTypes.object.isRequired,
-  deposited:     PropTypes.object.isRequired,
-  symbol:        PropTypes.string.isRequired,
-  token:         PropTypes.string.isRequired,
-  vaultContract: PropTypes.func.isRequired,
-  vaultDecimals: PropTypes.object.isRequired
+  address:           PropTypes.string.isRequired,
+  apy:               PropTypes.number.isRequired,
+  decimals:          PropTypes.object.isRequired,
+  deposited:         PropTypes.object.isRequired,
+  pricePerFullShare: PropTypes.object.isRequired,
+  symbol:            PropTypes.string.isRequired,
+  token:             PropTypes.string.isRequired,
+  vaultContract:     PropTypes.func.isRequired,
+  vaultDecimals:     PropTypes.object.isRequired
 }
 
 export default Withdraw

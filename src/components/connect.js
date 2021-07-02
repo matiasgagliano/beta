@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { connectAsync, selectStatus } from '../features/walletSlice'
 
-const Connect = props => {
+const Connect = () => {
   const status     = useSelector(selectStatus)
   const dispatch   = useDispatch()
 

@@ -22,7 +22,7 @@ const networkLogo = chainId => {
   return logos[chainId] || 'unsupported.svg'
 }
 
-const Network = props => {
+const Network = () => {
   const chainId = useSelector(selectChainId)
   const network = networkName(chainId)
   const style   = supportedChains.includes(chainId) ? 'primary' : 'danger'

@@ -19,7 +19,7 @@ const renderToasts = toasts => {
   })
 }
 
-const Toasts = props => {
+const Toasts = () => {
   const toasts   = useSelector(selectToasts)
   const address  = useSelector(selectAddress)
   const chainId  = useSelector(selectChainId)

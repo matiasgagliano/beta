@@ -62,7 +62,7 @@ const renderVaults = (vaults, address, chainId, web3) => {
   })
 }
 
-const Vaults = props => {
+const Vaults = () => {
   const address  = useSelector(selectAddress)
   const chainId  = useSelector(selectChainId)
   const web3     = useSelector(selectWeb3)

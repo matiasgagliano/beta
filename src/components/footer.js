@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-const Footer = props => (
+const Footer = () => (
   <footer className="my-5 text-center pt-lg-4">
     <h2 className="h6 mb-4">Contact us</h2>
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
+import PropTypes from 'prop-types'
 import * as Sentry from '@sentry/react'
 import '../styles/app.scss'
 import { dsn, integrations } from '../src/data/sentry'
@@ -19,6 +20,11 @@ function MyApp({ Component, pageProps }) {
       <Component {...pageProps} />
     </React.Fragment>
   )
+}
+
+MyApp.propTypes = {
+  Component: PropTypes.object.isRequired,
+  pageProps: PropTypes.object.isRequired
 }
 
 export default MyApp

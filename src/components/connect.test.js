@@ -1,5 +1,4 @@
 import { Provider } from 'react-redux'
-import BigNumber from 'bignumber.js'
 import { render, screen } from '@testing-library/react'
 import configureStore from 'redux-mock-store'
 import Connect from './connect'

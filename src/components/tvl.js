@@ -4,7 +4,7 @@ import { selectVaults } from '../features/vaultsSlice'
 import { selectChainId } from '../features/walletSlice'
 import { toUsd } from '../helpers/format'
 
-const Tvl = props => {
+const Tvl = () => {
   const chainId = useSelector(selectChainId)
   const vaults  = useSelector(selectVaults)
   const tvl     = (vaults[chainId] || []).reduce((acc, vault) => {

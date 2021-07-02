@@ -5,7 +5,7 @@ import { selectAddress, selectChainId } from '../features/walletSlice'
 import { formatAmount, toUsd } from '../helpers/format'
 import { fromWei } from '../helpers/wei'
 
-const Deposited = props => {
+const Deposited = () => {
   const address   = useSelector(selectAddress)
   const chainId   = useSelector(selectChainId)
   const vaults    = useSelector(selectVaults)

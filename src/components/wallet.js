@@ -27,7 +27,7 @@ const walletIcon = (address, supported) => {
     return 'bi-plug-fill'
   }
 }
-const Wallet = props => {
+const Wallet = () => {
   const address   = useSelector(selectAddress)
   const chainId   = useSelector(selectChainId)
   const status    = useSelector(selectStatus)

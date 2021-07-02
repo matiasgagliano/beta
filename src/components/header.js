@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Wallet from './wallet'
 
-const Header = props => (
+const Header = () => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-transparent mt-4">
     <div className="container">
       <Link href="/">
