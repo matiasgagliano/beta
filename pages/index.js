@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import { Provider } from 'react-redux'
-import * as Sentry from '@sentry/react'
 import { store } from '../src/app/store'
 import App from '../src/components/app'
 

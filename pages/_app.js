@@ -1,5 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
+import * as Sentry from '@sentry/react'
 import '../styles/app.scss'
 import { dsn, integrations } from '../src/data/sentry'
 
