@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - beta
 
 env:
   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
@@ -59,6 +60,6 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        cname: app.2pi.finance
+        cname: {{ github.ref == 'ref/head/master' && 'app' || 'beta' }}.2pi.finance
         publish_branch: pages
         publish_dir: ./out
