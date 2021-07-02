@@ -8,7 +8,7 @@ on:
 
 env:
   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-  REACT_APP_SENTRY_RELEASE: ${{ github.sha }}
+  NEXT_PUBLIC_SENTRY_RELEASE: ${{ github.sha }}
 
 jobs:
   build:
