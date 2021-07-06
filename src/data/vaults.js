@@ -14,6 +14,17 @@ const localhostVauls = [
 
 const polygonVaults = [
   {
+    key:     'btc-curve',
+    token:   'btc',
+    earn:    'BTC',
+    priceId: 'bitcoin',
+    uses:    'Curve',
+    pool:    'curve',
+    symbol:  'BTC',
+    color:   'info',
+    borrow:  {}
+  },
+  {
     key:     'dai',
     token:   'dai',
     earn:    'DAI',
