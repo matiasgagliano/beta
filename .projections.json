@@ -4,6 +4,14 @@
     "alternate": "pages/{}.js"
   },
 
+  "styles/app.scss": {
+    "type": "stylesheet"
+  },
+
+  "styles/*.scss": {
+    "type": "stylesheet"
+  },
+
   "src/app/store.js": {
     "type": "store"
   },
@@ -54,13 +62,5 @@
 
   "src/index.js": {
     "type": "index"
-  },
-
-  "src/css/app.scss": {
-    "type": "stylesheet"
-  },
-
-  "src/css/*.scss": {
-    "type": "stylesheet"
   }
 }
