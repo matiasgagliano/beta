@@ -15,8 +15,8 @@ const helpers = {
   },
 
   getVaultApy (vault, dataProvider, distributionManager, prices) {
-  let apy
-  let altApy = 0
+    let apy
+    let altApy = 0
 
     if (vault.pool === 'curve') {
       apy = 0.1324 // To be really calculated
@@ -125,12 +125,20 @@ const getKeys = address => {
   return keys
 }
 
+const vaultAbi = (v, chainId) => {
+  if (chainId === 80001) {
+    return require(`../abis/main/${chainId}/archimedes`).default
+  } else {
+    return require(`../abis/vaults/${chainId}/${v.pool}-${v.token}`).default
+  }
+}
+
 const getCalls = (address, chainId, ethcallProvider, v) => {
-  const vault         = require(`../abis/vaults/${chainId}/${v.pool}-${v.token}`).default
+  const vault         = vaultAbi(v, chainId)
   const token         = require(`../abis/tokens/${chainId}/${v.token}`).default
   const vaultContract = new Contract(vault.address, vault.abi)
 
-  let decimals, balance, allowance
+  let results, decimals, balance, allowance
 
   if (token.abi) {
     const tokenContract = new Contract(token.address, token.abi)
@@ -140,17 +148,31 @@ const getCalls = (address, chainId, ethcallProvider, v) => {
     allowance = tokenContract.allowance(address, vault.address)
   } else {
     // MATIC is native so it needs other functions
-    decimals  = vaultContract.decimals() // same decimals
+    if (chainId === 80001) {
+      decimals = vaultContract.decimals(v.pid) // same decimals
+    } else {
+      decimals = vaultContract.decimals() // same decimals
+    }
+
     balance   = ethcallProvider.getEthBalance(address)
     allowance = ethcallProvider.getEthBalance(address) // fake allowance
   }
 
-  const results = [
-    decimals,
-    vaultContract.getPricePerFullShare(),
-    vaultContract.balance(),
-    vaultContract.decimals(),
-  ]
+  if (chainId === 80001) {
+    results = [
+      decimals,
+      vaultContract.getPricePerFullShare(v.pid),
+      vaultContract.balance(v.pid),
+      vaultContract.decimals(v.pid),
+    ]
+  } else {
+    results = [
+      decimals,
+      vaultContract.getPricePerFullShare(),
+      vaultContract.balance(),
+      vaultContract.decimals(),
+    ]
+  }
 
   if (v.pool === 'aave') {
     const pool                        = require(`../abis/pools/${chainId}/${v.pool}`).default
@@ -172,11 +194,15 @@ const getCalls = (address, chainId, ethcallProvider, v) => {
   }
 
   if (address) {
-    results.push(
-      balance,
-      allowance,
-      vaultContract.balanceOf(address)
-    )
+    let balanceCall
+
+    if (chainId === 80001) {
+      balanceCall = vaultContract.balanceOf(v.pid, address)
+    } else {
+      balanceCall = vaultContract.balanceOf(address)
+    }
+
+    results.push(balance, allowance, balanceCall)
   }
 
   return results

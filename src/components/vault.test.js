@@ -14,6 +14,8 @@ test('renders vault', () => {
     deposited:         undefined,
     depositedUsd:      undefined,
     earn:              'xDAI',
+    pid:               '0',
+    pool:              'aave',
     pricePerFullShare: undefined,
     symbol:            'DAI',
     token:             'dai',

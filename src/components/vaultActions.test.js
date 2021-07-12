@@ -27,6 +27,7 @@ describe('vault actions component render', () => {
       balance:           undefined,
       decimals:          undefined,
       deposited:         undefined,
+      pid:               '0',
       pricePerFullShare: undefined,
       symbol:            'DAI',
       token:             'dai',

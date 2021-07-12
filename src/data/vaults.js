@@ -7,6 +7,7 @@ const localhostVauls = [
     uses:    'Aave',
     pool:    'aave',
     symbol:  '2PI',
+    pid:     '0',
     color:   'primary',
     borrow:  { depth: 0, percentage: 0.73 }
   }
@@ -21,6 +22,7 @@ const polygonVaults = [
     uses:    'Curve',
     pool:    'curve',
     symbol:  'BTC',
+    pid:     '1111', // Should be fixed
     color:   'info',
     borrow:  {}
   },
@@ -32,6 +34,7 @@ const polygonVaults = [
     uses:    'Aave',
     pool:    'aave',
     symbol:  'DAI',
+    pid:     '3',
     color:   'primary',
     borrow:  { depth: 8, percentage: 0.73 }
   },
@@ -43,6 +46,7 @@ const polygonVaults = [
     uses:    'Aave',
     pool:    'aave',
     symbol:  'MATIC',
+    pid:     '0',
     color:   'primary-dark',
     borrow:  { depth: 8, percentage: 0.48 }
   },
@@ -54,6 +58,7 @@ const polygonVaults = [
     uses:    'Aave',
     pool:    'aave',
     symbol:  'BTC',
+    pid:     '2',
     color:   'info',
     borrow:  { depth: 8, percentage: 0.68 }
   },
@@ -65,6 +70,7 @@ const polygonVaults = [
     uses:    'Aave',
     pool:    'aave',
     symbol:  'ETH',
+    pid:     '1',
     color:   'primary',
     borrow:  { depth: 8, percentage: 0.78 }
   },
@@ -76,6 +82,7 @@ const polygonVaults = [
     uses:    'Aave',
     pool:    'aave',
     symbol:  'USDC',
+    pid:     '4',
     color:   'primary-dark',
     borrow:  { depth: 8, percentage: 0.78 }
   },
@@ -87,6 +94,7 @@ const polygonVaults = [
     uses:    'Aave',
     pool:    'aave',
     symbol:  'USDT',
+    pid:     '5',
     color:   'info',
     borrow:  { depth: 0, percentage: 0 }
   }

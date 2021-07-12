@@ -1,14 +1,16 @@
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import BigNumber from 'bignumber.js'
 import { fromWei, toWei } from '../helpers/wei'
 import { fetchVaultsDataAsync } from '../features/vaultsSlice'
 import { toastAdded, toastDestroyed } from '../features/toastsSlice'
 import { decimalPlaces, formatAmount, toWeiFormatted } from '../helpers/format'
 import { transactionSent } from '../helpers/transactions'
+import { selectChainId } from '../features/walletSlice'
 
 const Withdraw = props => {
+  const chainId                                 = useSelector(selectChainId)
   const dispatch                                = useDispatch()
   const [withdraw, setWithdraw]                 = useState('')
   const [useAll, setUseAll]                     = useState(false)
@@ -48,7 +50,15 @@ const Withdraw = props => {
     setWithdrawLabel('Withdraw...')
     setStatus('withdraw')
 
-    vaultContract.methods.withdraw(amount).send({
+    let call
+
+    if (chainId === 80001) {
+      call = vaultContract.methods.withdraw(props.pid, amount)
+    } else {
+      call = vaultContract.methods.withdraw(amount)
+    }
+
+    call.send({
       from: props.address
     }).on('transactionHash', hash => {
       transactionSent(hash, dispatch)
@@ -67,13 +77,13 @@ const Withdraw = props => {
           autohide: true
         })
       )
-    }).catch(error => {
+    }).catch(() => {
       setStatus('blank')
       setWithdrawLabel('Withdraw')
       dispatch(
         toastAdded({
           title:    'Withdraw rejected',
-          body:     error.message,
+          body:     'Your withdraw was rejected, please check the explorer and try again',
           icon:     'exclamation-triangle',
           style:    'danger',
           autohide: true
@@ -89,7 +99,15 @@ const Withdraw = props => {
     setWithdrawAllLabel('Withdraw all...')
     setStatus('withdraw')
 
-    vaultContract.methods.withdrawAll().send({
+    let call
+
+    if (chainId === 80001) {
+      call = vaultContract.methods.withdrawAll(props.pid)
+    } else {
+      call = vaultContract.methods.withdrawAll()
+    }
+
+    call.send({
       from: props.address
     }).on('transactionHash', hash => {
       transactionSent(hash, dispatch)
@@ -207,6 +225,7 @@ Withdraw.propTypes = {
   apy:               PropTypes.number.isRequired,
   decimals:          PropTypes.object.isRequired,
   deposited:         PropTypes.object.isRequired,
+  pid:               PropTypes.string.isRequired,
   pricePerFullShare: PropTypes.object.isRequired,
   symbol:            PropTypes.string.isRequired,
   token:             PropTypes.string.isRequired,

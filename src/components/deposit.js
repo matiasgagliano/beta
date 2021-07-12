@@ -1,20 +1,28 @@
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import BigNumber from 'bignumber.js'
 import { fromWei, toWei } from '../helpers/wei'
 import { fetchVaultsDataAsync } from '../features/vaultsSlice'
 import { toastAdded, toastDestroyed } from '../features/toastsSlice'
 import { decimalPlaces, formatAmount, toWeiFormatted } from '../helpers/format'
 import { transactionSent } from '../helpers/transactions'
+import { selectChainId } from '../features/walletSlice'
+import { ZERO_ADDRESS } from '../data/constants'
 
 const Deposit = props => {
+  const chainId                               = useSelector(selectChainId)
   const dispatch                              = useDispatch()
+  const [referral, setReferral]               = useState('')
   const [deposit, setDeposit]                 = useState('')
   const [useAll, setUseAll]                   = useState(false)
   const [depositLabel, setDepositLabel]       = useState('Deposit')
   const [depositAllLabel, setDepositAllLabel] = useState('Deposit all')
   const [status, setStatus]                   = useState('blank')
+
+  useEffect(() => {
+    setReferral(localStorage.getItem('referral') || ZERO_ADDRESS)
+  }, [])
 
   useEffect(() => {
     if (status !== 'deposit') {
@@ -54,6 +62,10 @@ const Deposit = props => {
         from:  props.address,
         value: amount
       })
+    } else if (chainId === 80001) {
+      call = vaultContract.methods.deposit(props.pid, amount, referral).send({
+        from: props.address
+      })
     } else {
       call = vaultContract.methods.deposit(amount).send({ from: props.address })
     }
@@ -75,13 +87,13 @@ const Deposit = props => {
           autohide: true
         })
       )
-    }).catch(error => {
-      setDepositLabel('Deposit')
+    }).catch(() => {
       setStatus('blank')
+      setDepositLabel('Deposit')
       dispatch(
         toastAdded({
           title:    'Deposit rejected',
-          body:     error.message,
+          body:     'Your deposit has been rejected, please check the explorer and try again',
           icon:     'exclamation-triangle',
           style:    'danger',
           autohide: true
@@ -107,6 +119,10 @@ const Deposit = props => {
 
       call = vaultContract.methods.depositMATIC().send({
         from: props.address, value: amount.toFixed()
+      })
+    } else if (chainId === 80001) {
+      call = vaultContract.methods.depositAll(props.pid).send({
+        from: props.address
       })
     } else {
       call = vaultContract.methods.depositAll().send({ from: props.address })
@@ -229,6 +245,7 @@ Deposit.propTypes = {
   address:       PropTypes.string.isRequired,
   balance:       PropTypes.object.isRequired,
   decimals:      PropTypes.object.isRequired,
+  pid:           PropTypes.string.isRequired,
   symbol:        PropTypes.string.isRequired,
   token:         PropTypes.string.isRequired,
   vaultContract: PropTypes.func.isRequired

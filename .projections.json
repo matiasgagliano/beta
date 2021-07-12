@@ -1,4 +1,9 @@
 {
+  "pages/*.js": {
+    "type": "page",
+    "alternate": "pages/{}.js"
+  },
+
   "src/app/store.js": {
     "type": "store"
   },

@@ -19,7 +19,11 @@ const Vault = props => {
 
   const vaultAbi = () => {
     if (supportedChains.includes(props.chainId)) {
-      return require(`../abis/vaults/${props.chainId}/${props.pool}-${props.token}`).default
+      if (props.chainId === 80001) {
+        return require(`../abis/main/${props.chainId}/archimedes`).default
+      } else {
+        return require(`../abis/vaults/${props.chainId}/${props.pool}-${props.token}`).default
+      }
     }
   }
 
@@ -63,6 +67,7 @@ const Vault = props => {
                       balance={balance}
                       decimals={decimals}
                       deposited={deposited}
+                      pid={props.pid}
                       pricePerFullShare={props.pricePerFullShare}
                       symbol={symbol}
                       token={props.token}
@@ -169,6 +174,8 @@ Vault.propTypes = {
   deposited:         PropTypes.object,
   depositedUsd:      PropTypes.object,
   earn:              PropTypes.string.isRequired,
+  pid:               PropTypes.string.isRequired,
+  pool:              PropTypes.string.isRequired,
   pricePerFullShare: PropTypes.object,
   symbol:            PropTypes.string.isRequired,
   token:             PropTypes.string.isRequired,

@@ -1,15 +1,15 @@
 import React from 'react'
 import Head from 'next/head'
-import App from '../src/components/app'
+import Referrals from '../src/components/referrals'
 
 export default function Home() {
   return (
     <React.Fragment>
       <Head>
-        <title>2pi Finance</title>
+        <title>2pi Finance - Referrals</title>
       </Head>
 
-      <App />
+      <Referrals />
     </React.Fragment>
   )
 }

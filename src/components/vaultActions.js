@@ -19,6 +19,7 @@ const VaultActions = props => {
       address,
       balance,
       decimals,
+      pid,
       symbol,
       token,
       tokenContract,
@@ -31,6 +32,7 @@ const VaultActions = props => {
       return <Deposit address={address}
                       balance={balance}
                       decimals={decimals}
+                      pid={pid}
                       symbol={symbol}
                       token={token}
                       vaultContract={vaultContract} />
@@ -59,6 +61,7 @@ const VaultActions = props => {
                       apy={props.apy}
                       decimals={props.decimals}
                       deposited={props.deposited}
+                      pid={props.pid}
                       pricePerFullShare={props.pricePerFullShare}
                       symbol={props.symbol}
                       token={props.token}
@@ -88,6 +91,7 @@ VaultActions.propTypes = {
   balance:           PropTypes.object,
   decimals:          PropTypes.object,
   deposited:         PropTypes.object,
+  pid:               PropTypes.string.isRequired,
   pricePerFullShare: PropTypes.object,
   symbol:            PropTypes.string.isRequired,
   token:             PropTypes.string.isRequired,

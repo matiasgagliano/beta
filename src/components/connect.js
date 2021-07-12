@@ -2,8 +2,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { connectAsync, selectStatus } from '../features/walletSlice'
 
 const Connect = () => {
-  const status     = useSelector(selectStatus)
-  const dispatch   = useDispatch()
+  const status   = useSelector(selectStatus)
+  const dispatch = useDispatch()
 
   const buttonLabel = () => {
     if (status === 'loading') {

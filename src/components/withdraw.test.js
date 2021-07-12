@@ -10,7 +10,9 @@ describe('withdraw component render', () => {
   let store
 
   beforeEach(() => {
-    const initialState = {}
+    const initialState = {
+      wallet: {}
+    }
 
     store = mockStore(initialState)
   })
@@ -21,6 +23,7 @@ describe('withdraw component render', () => {
       apy:               10,
       decimals:          new BigNumber(18),
       deposited:         new BigNumber(0),
+      pid:               '0',
       pricePerFullShare: new BigNumber(1),
       symbol:            'DAI',
       token:             'dai',

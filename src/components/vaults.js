@@ -9,6 +9,7 @@ import {
   fetchVaultsDataAsync
 } from '../features/vaultsSlice'
 import {
+  defaultChain,
   selectAddress,
   selectChainId,
   selectWeb3,
@@ -50,6 +51,7 @@ const renderVaults = (vaults, address, chainId, web3) => {
              deposited={deposited}
              depositedUsd={depositedUsd}
              earn={earn}
+             pid={vaultData.pid}
              pool={vaultData.pool}
              pricePerFullShare={pricePerFullShare}
              symbol={vaultData.symbol}
@@ -73,7 +75,14 @@ const Vaults = () => {
   useEffect(() => {
     const delay     = address ? FETCH_INTERVAL : FETCH_INTERVAL * 6
     const fetchData = () => {
-      if (supportedChains.includes(chainId)) {
+      const skip      = chainId !== defaultChain && ! address
+      const supported = supportedChains.includes(chainId)
+
+      if (skip && supported) {
+        return
+      }
+
+      if (supported) {
         dispatch(fetchVaultsDataAsync())
       } else {
         dispatch(resetVaults())

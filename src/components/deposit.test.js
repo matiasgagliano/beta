@@ -10,7 +10,9 @@ describe('deposit component render', () => {
   let store
 
   beforeEach(() => {
-    const initialState = {}
+    const initialState = {
+      wallet: {}
+    }
 
     store = mockStore(initialState)
   })
@@ -20,6 +22,7 @@ describe('deposit component render', () => {
       address:       '0x06012c8cf97bead5deae237070f9587f8e7a266d',
       balance:       new BigNumber(0),
       decimals:      new BigNumber(18),
+      pid:           '0',
       symbol:        'DAI',
       token:         'dai',
       vaultContract: () => {}
