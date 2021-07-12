@@ -95,7 +95,7 @@ const polygonVaults = [
 const vaults = {
   137:   polygonVaults,
   1337:  localhostVauls,
-  80001: polygonVaults
+  80001: polygonVaults.filter(vault => vault.pool === 'aave')
 }
 
 export default vaults

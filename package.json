@@ -21,7 +21,7 @@
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
     "react-transition-group": "^4.4.2",
-    "sass": "^1.35.1",
+    "sass": "^1.35.2",
     "walletlink": "^2.1.6",
     "web-vitals": "^2.1.0",
     "web3": "^1.4.0",
@@ -60,8 +60,8 @@
     ]
   },
   "devDependencies": {
-    "@sentry/cli": "^1.66.0",
-    "eslint": "^7.29.0",
+    "@sentry/cli": "^1.67.1",
+    "eslint": "^7.30.0",
     "eslint-config-next": "^11.0.1",
     "eslint-plugin-jest": "^24.3.6",
     "jest": "^27.0.6",

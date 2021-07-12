@@ -61,7 +61,7 @@ const call = (promises, keys, chainId, dispatch) => {
         ...extraData[i],
       }
 
-      // MATIC is the native tokenn so it doesn't need allowance
+      // MATIC is the native token so it doesn't need allowance
       if (vault.token === 'matic') {
         extraData[i]['allowance'] = new BigNumber(1e58.toString())
       }
