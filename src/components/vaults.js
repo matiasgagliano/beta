@@ -16,7 +16,6 @@ import {
   supportedChains
 } from '../features/walletSlice'
 
-
 const FETCH_INTERVAL = 30 * 1000
 
 const renderVaults = (vaults, address, chainId, web3) => {

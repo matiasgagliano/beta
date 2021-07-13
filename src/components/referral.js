@@ -33,7 +33,7 @@ const Referral = () => {
           </Link>
         </div>
 
-        <h2 className="h1 text-primary mt-5 mb-0">
+        <h2 className="h1 text-primary mt-4 mb-0">
           2pi.finance
         </h2>
 

@@ -39,7 +39,7 @@ const ReferralLink = () => {
       <div className="mb-3">
         <label htmlFor="referralInput" className="visually-hidden">Referral link</label>
         <input type="email"
-               className="form-control"
+               className="form-control form-control-sm"
                readOnly={true}
                value={url}
                id="referralInput" />
