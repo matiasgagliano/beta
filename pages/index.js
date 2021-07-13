@@ -2,7 +2,7 @@ import React from 'react'
 import Head from 'next/head'
 import App from '../src/components/app'
 
-export default function Home() {
+const Index = () => {
   return (
     <React.Fragment>
       <Head>
@@ -13,3 +13,5 @@ export default function Home() {
     </React.Fragment>
   )
 }
+
+export default Index
