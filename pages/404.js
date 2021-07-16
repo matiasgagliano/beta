@@ -11,15 +11,27 @@ const Custom404 = () => {
     }
   }, [])
 
-  return (
-    <div className="container my-5">
-      <Back />
+  const render = () => {
+    if (router.asPath === '/404') {
+      return (
+        <div className="container my-5">
+          <Back />
 
-      <h1 className="display-1 text-center my-5 pt-5">
-        Page not found!
-      </h1>
-    </div>
-  )
+          <h1 className="display-1 text-center my-5 pt-5">
+            Page not found!
+          </h1>
+        </div>
+      )
+    } else {
+      return (
+        <div className="spinner-border text-primary mt-5" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      )
+    }
+  }
+
+  return render()
 }
 
 export default Custom404
