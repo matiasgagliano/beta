@@ -12,8 +12,6 @@ const Custom404 = () => {
   }, [])
 
   const render = () => {
-    console.debug('asPath', router.asPath)
-
     if (router.asPath === '/404') {
       return (
         <div className="container my-5">
