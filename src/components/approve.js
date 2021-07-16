@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import BigNumber from 'bignumber.js'
 import { fromWei, toWei } from '../helpers/wei'
-import { fetchVaultsDataAsync } from '../features/vaultsSlice'
+import { fetchVaultsDataAsync, newVaultFetch } from '../features/vaultsSlice'
 import { toastAdded, toastDestroyed } from '../features/toastsSlice'
 import { decimalPlaces, formatAmount } from '../helpers/format'
 import { transactionSent } from '../helpers/transactions'
@@ -53,6 +53,7 @@ const Approve = props => {
       setStatus('blank')
       setButtonLabel('Approve')
       dispatch(toastDestroyed('Approve rejected'))
+      dispatch(newVaultFetch())
       dispatch(fetchVaultsDataAsync())
       dispatch(
         toastAdded({
@@ -89,13 +90,7 @@ const Approve = props => {
 
   return (
     <React.Fragment>
-      <label className="text-muted text-decoration-underline-dotted cursor-pointer mb-2"
-             htmlFor={balanceId()}
-             onClick={setMax}>
-        Balance ({formatAmount(fromWei(props.balance, props.decimals), '', 8)} {props.symbol})
-      </label>
-
-      <div className="input-group mb-3">
+      <div className="input-group mb-1">
         <input type="number"
                className="form-control"
                id={balanceId()}
@@ -110,13 +105,27 @@ const Approve = props => {
         </button>
       </div>
 
-      <div className="d-grid gap-2 mb-3 mb-lg-0">
-        <button type="button"
-                className="btn btn-primary text-white fw-bold"
-                disabled={['invalid', 'approve'].includes(status)}
-                onClick={handleClick}>
-          {buttonLabel}
-        </button>
+      <div className="text-end">
+        <label className="small text-uppercase text-decoration-underline-dotted cursor-pointer"
+               htmlFor={balanceId()}
+               onClick={setMax}>
+          Wallet balance: {formatAmount(fromWei(props.balance, props.decimals), '', 8)} {props.symbol}
+        </label>
+      </div>
+
+      <hr className="border border-primary border-1 opacity-100" />
+
+      <div className="row justify-content-center mt-4 mb-3">
+        <div className="col-lg-6">
+          <div className="d-grid gap-2 mb-3 mb-lg-0">
+            <button type="button"
+                    className="btn btn-outline-primary bg-dark text-white fw-bold"
+                    disabled={['invalid', 'approve'].includes(status)}
+                    onClick={handleClick}>
+              {buttonLabel}
+            </button>
+          </div>
+        </div>
       </div>
     </React.Fragment>
   )

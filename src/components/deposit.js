@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import BigNumber from 'bignumber.js'
 import { fromWei, toWei } from '../helpers/wei'
-import { fetchVaultsDataAsync } from '../features/vaultsSlice'
+import { fetchVaultsDataAsync, newVaultFetch } from '../features/vaultsSlice'
 import { toastAdded, toastDestroyed } from '../features/toastsSlice'
 import { decimalPlaces, formatAmount, toWeiFormatted } from '../helpers/format'
 import { transactionSent } from '../helpers/transactions'
@@ -11,14 +11,13 @@ import { selectChainId } from '../features/walletSlice'
 import { ZERO_ADDRESS } from '../data/constants'
 
 const Deposit = props => {
-  const chainId                               = useSelector(selectChainId)
-  const dispatch                              = useDispatch()
-  const [referral, setReferral]               = useState('')
-  const [deposit, setDeposit]                 = useState('')
-  const [useAll, setUseAll]                   = useState(false)
-  const [depositLabel, setDepositLabel]       = useState('Deposit')
-  const [depositAllLabel, setDepositAllLabel] = useState('Deposit all')
-  const [status, setStatus]                   = useState('blank')
+  const chainId                         = useSelector(selectChainId)
+  const dispatch                        = useDispatch()
+  const [referral, setReferral]         = useState('')
+  const [deposit, setDeposit]           = useState('')
+  const [useAll, setUseAll]             = useState(false)
+  const [depositLabel, setDepositLabel] = useState('Deposit')
+  const [status, setStatus]             = useState('blank')
 
   useEffect(() => {
     setReferral(localStorage.getItem('referral') || ZERO_ADDRESS)
@@ -77,6 +76,7 @@ const Deposit = props => {
       setStatus('blank')
       setDepositLabel('Deposit')
       dispatch(toastDestroyed('Deposit rejected'))
+      dispatch(newVaultFetch())
       dispatch(fetchVaultsDataAsync())
       dispatch(
         toastAdded({
@@ -106,7 +106,7 @@ const Deposit = props => {
     const vaultContract = props.vaultContract()
 
     setMax()
-    setDepositAllLabel('Deposit all...')
+    setDepositLabel('Deposit...')
     setStatus('deposit')
 
     let call
@@ -133,8 +133,9 @@ const Deposit = props => {
     }).then(() => {
       setDeposit('')
       setStatus('blank')
-      setDepositAllLabel('Deposit all')
+      setDepositLabel('Deposit')
       dispatch(toastDestroyed('Deposit all rejected'))
+      dispatch(newVaultFetch())
       dispatch(fetchVaultsDataAsync())
       dispatch(
         toastAdded({
@@ -146,7 +147,7 @@ const Deposit = props => {
         })
       )
     }).catch(error => {
-      setDepositAllLabel('Deposit all')
+      setDepositLabel('Deposit')
       setStatus('blank')
       dispatch(
         toastAdded({
@@ -178,7 +179,7 @@ const Deposit = props => {
     if (amount.comparedTo(reserve) > 0)
       return amount.minus(reserve)
     else {
-      setDepositAllLabel('Deposit all')
+      setDepositLabel('Deposit')
       setStatus('blank')
       dispatch(
         toastAdded({
@@ -194,13 +195,7 @@ const Deposit = props => {
 
   return (
     <React.Fragment>
-      <label className="text-muted text-decoration-underline-dotted cursor-pointer mb-2"
-             htmlFor={balanceId()}
-             onClick={setMax}>
-        Balance ({formatAmount(fromWei(props.balance, props.decimals), '', 8)} {props.symbol})
-      </label>
-
-      <div className="input-group mb-3">
+      <div className="input-group mb-1">
         <input type="number"
                className="form-control"
                id={balanceId()}
@@ -215,24 +210,24 @@ const Deposit = props => {
         </button>
       </div>
 
-      <div className="row">
+      <div className="text-end">
+        <label className="small text-uppercase text-decoration-underline-dotted cursor-pointer"
+               htmlFor={balanceId()}
+               onClick={setMax}>
+          Wallet balance: {formatAmount(fromWei(props.balance, props.decimals), '', 8)} {props.symbol}
+        </label>
+      </div>
+
+      <hr className="border border-primary border-1 opacity-100" />
+
+      <div className="row justify-content-center mt-4 mb-3">
         <div className="col-lg-6">
           <div className="d-grid gap-2 mb-3 mb-lg-0">
             <button type="button"
-                    className="btn btn-primary text-white fw-bold"
+                    className="btn btn-outline-primary bg-dark text-white fw-bold"
                     disabled={status !== 'valid'}
                     onClick={useAll ? handleDepositAllClick : handleDepositClick}>
               {depositLabel}
-            </button>
-          </div>
-        </div>
-        <div className="col-lg-6">
-          <div className="d-grid gap-2 mb-3 mb-lg-0">
-            <button type="button"
-                    className="btn btn-primary text-white fw-bold"
-                    disabled={status === 'deposit' || props.balance.isZero()}
-                    onClick={handleDepositAllClick}>
-              {depositAllLabel}
             </button>
           </div>
         </div>

@@ -2,21 +2,21 @@ import { Provider } from 'react-redux'
 import { render, screen } from '@testing-library/react'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import Vault from './vault'
+import VaultData from './vaultData'
 
 const mockStore = configureMockStore([thunk])
 
-describe('new vault component render', () => {
+describe('vault data component render', () => {
   let store
 
   beforeEach(() => {
     const initialState = {
-      toasts: [],
       vaults: {
         value: {
           137: [
             {
               key:    'dai',
+              earn:   'xDAI',
               pid:    '0',
               pool:   'aave',
               symbol: 'DAI',
@@ -33,19 +33,19 @@ describe('new vault component render', () => {
     store = mockStore(initialState)
   })
 
-  test('renders new vault', () => {
+  test('renders vault data', () => {
     const props = {
-      id:     'dai',
-      symbol: 'DAI'
+      id:   'dai',
+      earn: 'xDAI'
     }
 
     render(
       <Provider store={store}>
-        <Vault {...props} />
+        <VaultData {...props} />
       </Provider>
     )
 
-    const titleElement = screen.getByText(props.symbol)
+    const titleElement = screen.getByText(props.earn)
 
     expect(titleElement).toBeInTheDocument()
   })

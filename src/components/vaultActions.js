@@ -1,32 +1,64 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import Approve from './approve'
 import Connect from './connect'
 import Deposit from './deposit'
 import Withdraw from './withdraw'
 import { selectStatus } from '../features/vaultsSlice'
+import {
+  selectAddress,
+  selectChainId,
+  selectWeb3,
+  supportedChains
+} from '../features/walletSlice'
 
 const VaultActions = props => {
-  const status = useSelector(selectStatus)
+  const status              = useSelector(selectStatus)
+  const address             = useSelector(selectAddress)
+  const chainId             = useSelector(selectChainId)
+  const web3                = useSelector(selectWeb3)
+  const [action, setAction] = useState('deposit')
+
+  const getTokenData = () => {
+    if (supportedChains.includes(chainId)) {
+      return require(`../abis/tokens/${chainId}/${props.token}`).default
+    }
+  }
+
+  const getVaultData = () => {
+    if (supportedChains.includes(chainId)) {
+      if (chainId === 80001) {
+        return require(`../abis/main/${chainId}/archimedes`).default
+      } else {
+        return require(`../abis/vaults/${chainId}/${props.pool}-${props.token}`).default
+      }
+    }
+  }
+
+  const tokenContract = (token) => {
+    return () => {
+      if (token.abi) {
+        return new web3.eth.Contract(token.abi, token.address)
+      }
+    }
+  }
+
+  const vaultContract = (vault) => {
+    return () => {
+      return new web3.eth.Contract(vault.abi, vault.address)
+    }
+  }
 
   const canDeposit = () => {
     return props.allowance.comparedTo(props.balance) > 0
   }
 
+  const tokenData = getTokenData()
+  const vaultData = getVaultData()
+
   const renderBalanceAction = () => {
-    const {
-      address,
-      balance,
-      decimals,
-      pid,
-      symbol,
-      token,
-      tokenContract,
-      vault,
-      vaultContract,
-      web3
-    } = props
+    const { balance, decimals, pid, symbol, token } = props
 
     if (canDeposit()) {
       return <Deposit address={address}
@@ -35,40 +67,59 @@ const VaultActions = props => {
                       pid={pid}
                       symbol={symbol}
                       token={token}
-                      vaultContract={vaultContract} />
+                      vaultContract={vaultContract(vaultData)} />
     } else {
       return <Approve address={address}
                       balance={balance}
                       decimals={decimals}
                       symbol={symbol}
                       token={token}
-                      tokenContract={tokenContract}
-                      vault={vault}
+                      tokenContract={tokenContract(tokenData)}
+                      vault={vaultData}
                       web3={web3} />
+    }
+  }
+
+  const renderAction = () => {
+    if (action === 'deposit') {
+      return renderBalanceAction()
+    } else {
+      return <Withdraw address={address}
+                       apy={props.apy}
+                       decimals={props.decimals}
+                       deposited={props.deposited}
+                       pid={props.pid}
+                       pricePerFullShare={props.pricePerFullShare}
+                       symbol={props.symbol}
+                       token={props.token}
+                       vaultContract={vaultContract(vaultData)}
+                       vaultDecimals={props.vaultDecimals} />
     }
   }
 
   const renderActions = () => {
     if (['loaded', 'loading', 'succeded'].includes(status) && props.deposited) {
       return (
-        <div className="row">
-          <div className="col-lg-6">
-            {renderBalanceAction()}
-          </div>
+        <React.Fragment>
+          <ul className="nav nav-pills mb-3">
+            <li className="nav-item">
+              <button type="button"
+                      className={`nav-link ${action === 'deposit' ? 'active' : ''}`}
+                      onClick={() => setAction('deposit')}>
+                Deposit
+              </button>
+            </li>
+            <li className="nav-item">
+              <button type="button"
+                      className={`nav-link ${action === 'withdraw' ? 'active' : ''}`}
+                      onClick={() => setAction('withdraw')}>
+                Withdraw
+              </button>
+            </li>
+          </ul>
 
-          <div className="col-lg-6">
-            <Withdraw address={props.address}
-                      apy={props.apy}
-                      decimals={props.decimals}
-                      deposited={props.deposited}
-                      pid={props.pid}
-                      pricePerFullShare={props.pricePerFullShare}
-                      symbol={props.symbol}
-                      token={props.token}
-                      vaultContract={props.vaultContract}
-                      vaultDecimals={props.vaultDecimals} />
-          </div>
-        </div>
+          {renderAction()}
+        </React.Fragment>
       )
     } else {
       return <Connect />
@@ -77,29 +128,23 @@ const VaultActions = props => {
 
   return (
     <React.Fragment>
-      <hr />
-
       {renderActions()}
     </React.Fragment>
   )
 }
 
 VaultActions.propTypes = {
-  address:           PropTypes.string,
   allowance:         PropTypes.object,
   apy:               PropTypes.number,
   balance:           PropTypes.object,
   decimals:          PropTypes.object,
   deposited:         PropTypes.object,
   pid:               PropTypes.string.isRequired,
+  pool:              PropTypes.string.isRequired,
   pricePerFullShare: PropTypes.object,
   symbol:            PropTypes.string.isRequired,
   token:             PropTypes.string.isRequired,
-  tokenContract:     PropTypes.func,
-  vault:             PropTypes.object,
-  vaultContract:     PropTypes.func,
-  vaultDecimals:     PropTypes.object,
-  web3:              PropTypes.object
+  vaultDecimals:     PropTypes.object
 }
 
 export default VaultActions

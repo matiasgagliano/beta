@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Back from './back'
 import ReferralLink from './referralLink'
 import ReferralUnlock from './referralUnlock'
 import { useSelector } from 'react-redux'
@@ -19,18 +19,7 @@ const Referral = () => {
     <div className="card my-4 shadow-none">
       <div className="card-body text-center bg-dark border border-primary border-2 rounded px-lg-5 py-lg-4">
         <div className="text-start mb-0">
-          <Link href="/">
-            <a className="text-decoration-none">
-              <div className="d-flex align-items-center">
-                <div className="h4 mb-0">
-                  <i className="bi-arrow-left"></i>
-                </div>
-                <div className="ms-2">
-                  Back
-                </div>
-              </div>
-            </a>
-          </Link>
+          <Back />
         </div>
 
         <h2 className="h1 text-primary mt-4 mb-0">

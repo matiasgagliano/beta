@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import BigNumber from 'bignumber.js'
 import { fromWei, toWei } from '../helpers/wei'
-import { fetchVaultsDataAsync } from '../features/vaultsSlice'
+import { fetchVaultsDataAsync, newVaultFetch } from '../features/vaultsSlice'
 import { toastAdded, toastDestroyed } from '../features/toastsSlice'
 import { decimalPlaces, formatAmount, toWeiFormatted } from '../helpers/format'
 import { transactionSent } from '../helpers/transactions'
@@ -15,7 +15,6 @@ const Withdraw = props => {
   const [withdraw, setWithdraw]                 = useState('')
   const [useAll, setUseAll]                     = useState(false)
   const [withdrawLabel, setWithdrawLabel]       = useState('Withdraw')
-  const [withdrawAllLabel, setWithdrawAllLabel] = useState('Withdraw all')
   const [status, setStatus]                     = useState('blank')
 
   useEffect(() => {
@@ -67,6 +66,7 @@ const Withdraw = props => {
       setStatus('blank')
       setWithdrawLabel('Withdraw')
       dispatch(toastDestroyed('Withdraw rejected'))
+      dispatch(newVaultFetch())
       dispatch(fetchVaultsDataAsync())
       dispatch(
         toastAdded({
@@ -96,7 +96,7 @@ const Withdraw = props => {
     const vaultContract = props.vaultContract()
 
     setMax()
-    setWithdrawAllLabel('Withdraw all...')
+    setWithdrawLabel('Withdraw...')
     setStatus('withdraw')
 
     let call
@@ -114,8 +114,9 @@ const Withdraw = props => {
     }).then(() => {
       setWithdraw('')
       setStatus('withdraw')
-      setWithdrawAllLabel('Withdraw all')
+      setWithdrawLabel('Withdraw')
       dispatch(toastDestroyed('Withdraw all rejected'))
+      dispatch(newVaultFetch())
       dispatch(fetchVaultsDataAsync())
       dispatch(
         toastAdded({
@@ -128,7 +129,7 @@ const Withdraw = props => {
       )
     }).catch(error => {
       setStatus('blank')
-      setWithdrawAllLabel('Withdraw all')
+      setWithdrawLabel('Withdraw')
       dispatch(
         toastAdded({
           title:    'Withdraw all rejected',
@@ -157,13 +158,13 @@ const Withdraw = props => {
     if (+props.apy > 0) {
       return (
         <React.Fragment>
-          <div className="input-group mb-3">
+          <div className="input-group mb-1">
             <input type="number"
-                  className="form-control"
-                  id={depositedId()}
-                  onKeyDown={e => onChange(e) && e.preventDefault()}
-                  onChange={onChange}
-                  value={withdraw} />
+                   className="form-control"
+                   id={depositedId()}
+                   onKeyDown={e => onChange(e) && e.preventDefault()}
+                   onChange={onChange}
+                   value={withdraw} />
             <button type="button"
                     className="btn btn-link bg-input"
                     disabled={props.deposited?.isZero() || useAll}
@@ -172,24 +173,24 @@ const Withdraw = props => {
             </button>
           </div>
 
-          <div className="row">
+          <div className="text-end">
+            <label className="small text-uppercase text-decoration-underline-dotted cursor-pointer"
+                   htmlFor={depositedId()}
+                   onClick={setMax}>
+              Deposited: {formatAmount(fromWei(props.deposited, props.decimals), '', 8)} {props.symbol}
+            </label>
+          </div>
+
+          <hr className="border border-primary border-1 opacity-100" />
+
+          <div className="row justify-content-center mt-4 mb-3">
             <div className="col-lg-6">
               <div className="d-grid gap-2 mb-3 mb-lg-0">
                 <button type="button"
-                        className="btn btn-outline-primary bg-dark fw-bold"
+                        className="btn btn-outline-primary bg-dark text-white fw-bold"
                         disabled={status !== 'valid'}
                         onClick={useAll ? handleWithdrawAllClick : handleWithdrawClick}>
                   {withdrawLabel}
-                </button>
-              </div>
-            </div>
-            <div className="col-lg-6">
-              <div className="d-grid gap-2 mb-3 mb-lg-0">
-                <button type="button"
-                        className="btn btn-outline-primary bg-dark fw-bold"
-                        disabled={status === 'withdraw' || props.deposited?.isZero()}
-                        onClick={handleWithdrawAllClick}>
-                  {withdrawAllLabel}
                 </button>
               </div>
             </div>
@@ -198,23 +199,21 @@ const Withdraw = props => {
       )
     } else {
       return (
-        <div className="alert alert-info py-2 mb-0">
-          <p className="text-center small mb-0">
-            Withdrawals are temporarily disabled
-          </p>
-        </div>
+        <React.Fragment>
+          <div className="alert alert-info py-2 my-4">
+            <p className="text-center small mb-0">
+              Withdrawals are temporarily disabled
+            </p>
+          </div>
+
+          <hr className="border border-primary border-1 opacity-100" />
+        </React.Fragment>
       )
     }
   }
 
   return (
     <React.Fragment>
-      <label className="text-muted text-decoration-underline-dotted cursor-pointer mb-2"
-             htmlFor={depositedId()}
-             onClick={setMax}>
-        Deposited ({formatAmount(fromWei(props.deposited, props.decimals), '', 8)} {props.symbol})
-      </label>
-
       {actions()}
     </React.Fragment>
   )

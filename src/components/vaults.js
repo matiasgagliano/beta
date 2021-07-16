@@ -1,24 +1,13 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import Vault from './vault'
+import VaultItem from './vaultItem'
 import { fromWei } from '../helpers/wei'
 import { toUsd } from '../helpers/format'
-import {
-  resetVaults,
-  selectVaults,
-  fetchVaultsDataAsync
-} from '../features/vaultsSlice'
-import {
-  defaultChain,
-  selectAddress,
-  selectChainId,
-  selectWeb3,
-  supportedChains
-} from '../features/walletSlice'
+import { selectVaults } from '../features/vaultsSlice'
+import { constantVaultFetch } from '../helpers/vaults'
+import { selectAddress, selectChainId } from '../features/walletSlice'
 
-const FETCH_INTERVAL = 30 * 1000
-
-const renderVaults = (vaults, address, chainId, web3) => {
+const renderVaults = (vaults, chainId) => {
   return (vaults[chainId] || []).map(vaultData => {
     const {
       balance,
@@ -38,28 +27,20 @@ const renderVaults = (vaults, address, chainId, web3) => {
     const tvlUsd       = toUsd(tvl, decimals, usdPrice)
 
     return (
-      <Vault key={vaultData.key}
-             address={address}
-             allowance={vaultData.allowance}
-             apy={vaultData.apy}
-             balance={balance}
-             balanceUsd={balanceUsd}
-             chainId={chainId}
-             color={vaultData.color}
-             decimals={decimals}
-             deposited={deposited}
-             depositedUsd={depositedUsd}
-             earn={earn}
-             pid={vaultData.pid}
-             pool={vaultData.pool}
-             pricePerFullShare={pricePerFullShare}
-             symbol={vaultData.symbol}
-             token={vaultData.token}
-             tvlUsd={tvlUsd}
-             usdPrice={usdPrice}
-             uses={vaultData.uses}
-             vaultDecimals={vaultDecimals}
-             web3={web3} />
+      <VaultItem apy={vaultData.apy}
+                 balance={balance}
+                 balanceUsd={balanceUsd}
+                 color={vaultData.color}
+                 decimals={decimals}
+                 deposited={deposited}
+                 depositedUsd={depositedUsd}
+                 earn={earn}
+                 key={vaultData.key}
+                 symbol={vaultData.symbol}
+                 token={vaultData.token}
+                 tvlUsd={tvlUsd}
+                 uses={vaultData.uses}
+                 vaultKey={vaultData.key} />
     )
   })
 }
@@ -67,31 +48,11 @@ const renderVaults = (vaults, address, chainId, web3) => {
 const Vaults = () => {
   const address  = useSelector(selectAddress)
   const chainId  = useSelector(selectChainId)
-  const web3     = useSelector(selectWeb3)
   const vaults   = useSelector(selectVaults)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const delay     = address ? FETCH_INTERVAL : FETCH_INTERVAL * 6
-    const fetchData = () => {
-      const skip      = chainId !== defaultChain && ! address
-      const supported = supportedChains.includes(chainId)
-
-      if (skip && supported) {
-        return
-      }
-
-      if (supported) {
-        dispatch(fetchVaultsDataAsync())
-      } else {
-        dispatch(resetVaults())
-      }
-    }
-    const interval = setInterval(fetchData, delay)
-
-    fetchData()
-
-    return () => clearInterval(interval)
+    return constantVaultFetch(address, chainId, dispatch)
   }, [address, chainId, dispatch])
 
   return (
@@ -111,7 +72,7 @@ const Vaults = () => {
       </div>
 
       <div className="mt-3">
-        {renderVaults(vaults, address, chainId, web3)}
+        {renderVaults(vaults, chainId)}
       </div>
     </div>
   )

@@ -1,14 +1,15 @@
+import PropTypes from 'prop-types'
 import Image from 'next/image'
 import Link from 'next/link'
 import Wallet from './wallet'
 
-const Header = () => (
+const Header = props => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-transparent mt-4">
     <div className="container">
       <Link href="/">
         <a className="navbar-brand me-auto pt-lg-2">
           <div className="mt-1 pt-1">
-            <Image src="/images/logo.svg" alt="2pi Finance" width="149" height="24" />
+            <Image src={`/${props.path ?? '.'}/images/logo.svg`} alt="2pi Finance" width="149" height="24" />
           </div>
         </a>
       </Link>
@@ -47,5 +48,9 @@ const Header = () => (
     </div>
   </nav>
 )
+
+Header.propTypes = {
+  path: PropTypes.string
+}
 
 export default Header

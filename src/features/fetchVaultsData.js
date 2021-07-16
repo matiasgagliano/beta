@@ -29,7 +29,7 @@ const helpers = {
   }
 }
 
-const call = (promises, keys, chainId, dispatch) => {
+const call = (promises, keys, chainId, dispatch, order) => {
   Promise.all(promises).then(data => {
     const extraData = []
     const prices    = data.pop()
@@ -86,8 +86,11 @@ const call = (promises, keys, chainId, dispatch) => {
 
     dispatch(
       vaultsLoaded({
-        ...vaults,
-        [chainId]: vaultsData
+        order:  order,
+        vaults: {
+          ...vaults,
+          [chainId]: vaultsData
+        }
       })
     )
     dispatch(toastDestroyed('Data loading error'))
@@ -208,7 +211,14 @@ const getCalls = (address, chainId, ethcallProvider, v) => {
   return results
 }
 
-export async function fetchVaultsData (address, chainId, provider, web3, dispatch) {
+export async function fetchVaultsData (
+  address,
+  chainId,
+  provider,
+  web3,
+  dispatch,
+  order
+) {
   // Localhost address
   setMulticallAddress(1337, process.env.NEXT_PUBLIC_LOCAL_MULTICALL_ADDR)
 
@@ -227,5 +237,5 @@ export async function fetchVaultsData (address, chainId, provider, web3, dispatc
     getPrices(vaults[chainId], dispatch)
   ]
 
-  call(promises, keys, chainId, dispatch)
+  call(promises, keys, chainId, dispatch, order)
 }
