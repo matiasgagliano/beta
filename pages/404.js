@@ -9,7 +9,7 @@ const Custom404 = () => {
     if (router.asPath !== '/404') {
       router.push(router.asPath)
     }
-  }, [])
+  }, [router])
 
   const render = () => {
     if (router.asPath === '/404') {
