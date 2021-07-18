@@ -18,9 +18,8 @@ const VaultClaim = props => {
   const chainId                     = useSelector(selectChainId)
   const web3                        = useSelector(selectWeb3)
   const dispatch                    = useDispatch()
-  const chainSupportsClaim          = chainId === 80001
   const [claimLabel, setClaimLabel] = useState('Claim')
-  const [status, setStatus]         = useState('blank')
+  const [status, setStatus]         = useState('ready')
 
   const pendingTokens = vault => {
     const decimals               = new BigNumber(18) // just to save a call
@@ -46,7 +45,7 @@ const VaultClaim = props => {
     }).on('transactionHash', hash => {
       transactionSent(hash, dispatch)
     }).then(() => {
-      setStatus('blank')
+      setStatus('ready')
       setClaimLabel('Claim')
       dispatch(toastDestroyed('Claim rejected'))
       dispatch(newVaultFetch())
@@ -61,7 +60,7 @@ const VaultClaim = props => {
         })
       )
     }).catch(() => {
-      setStatus('blank')
+      setStatus('ready')
       setClaimLabel('Claim')
       dispatch(
         toastAdded({
@@ -78,7 +77,7 @@ const VaultClaim = props => {
   const pending = pendingTokens(props.vault)
 
   const enabled = () => {
-    return status === 'blank' && chainSupportsClaim && pending?.isGreaterThan(0)
+    return status === 'ready' && chainId === 80001 && pending?.isGreaterThan(0)
   }
 
   if (props.vault.pid) {

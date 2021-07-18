@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import Header from './header'
 import Tvl from './tvl'
 import Deposited from './deposited'
+import Reward from './reward'
 import Network from './network'
 import Vaults from './vaults'
 import Toasts from './toasts'
@@ -29,6 +30,7 @@ const App = () => {
       <Header />
       <Tvl />
       <Deposited />
+      <Reward />
       <Network />
       <Vaults />
       <Toasts />
