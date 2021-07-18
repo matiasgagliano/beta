@@ -121,7 +121,8 @@ const getKeys = address => {
     keys.push(
       'balance',
       'allowance',
-      'shares'
+      'shares',
+      'pendingTokens'
     )
   }
 
@@ -166,14 +167,14 @@ const getCalls = (address, chainId, ethcallProvider, v) => {
       decimals,
       vaultContract.getPricePerFullShare(v.pid),
       vaultContract.balance(v.pid),
-      vaultContract.decimals(v.pid),
+      vaultContract.decimals(v.pid)
     ]
   } else {
     results = [
       decimals,
       vaultContract.getPricePerFullShare(),
       vaultContract.balance(),
-      vaultContract.decimals(),
+      vaultContract.decimals()
     ]
   }
 
@@ -197,15 +198,17 @@ const getCalls = (address, chainId, ethcallProvider, v) => {
   }
 
   if (address) {
-    let balanceCall
+    let balanceCall, pendingTokensCall
 
     if (chainId === 80001) {
-      balanceCall = vaultContract.balanceOf(v.pid, address)
+      balanceCall       = vaultContract.balanceOf(v.pid, address)
+      pendingTokensCall = vaultContract.pendingPiToken(v.pid, address)
     } else {
-      balanceCall = vaultContract.balanceOf(address)
+      balanceCall       = vaultContract.balanceOf(address)
+      pendingTokensCall = vaultContract.balanceOf(address) // _fake_ call
     }
 
-    results.push(balance, allowance, balanceCall)
+    results.push(balance, allowance, balanceCall, pendingTokensCall)
   }
 
   return results
