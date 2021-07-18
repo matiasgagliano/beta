@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Image from 'next/image'
 import VaultActions from './vaultActions'
-import VaultClaim from './vaultClaim'
+import Claim from './claim'
 import { fromWei } from '../helpers/wei'
 import { formatAmount, toPercentage, toUsd } from '../helpers/format'
 
@@ -70,7 +70,7 @@ const VaultDetails = props => {
               </div>
             </div>
 
-            <VaultClaim vault={vault} />
+            <Claim vault={vault} />
 
             <div className="row my-2">
               <div className="col-6 text-start">

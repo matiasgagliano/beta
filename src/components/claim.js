@@ -13,7 +13,7 @@ import {
   selectWeb3
 } from '../features/walletSlice'
 
-const VaultClaim = props => {
+const Claim = props => {
   const address                     = useSelector(selectAddress)
   const chainId                     = useSelector(selectChainId)
   const web3                        = useSelector(selectWeb3)
@@ -108,8 +108,8 @@ const VaultClaim = props => {
   }
 }
 
-VaultClaim.propTypes = {
+Claim.propTypes = {
   vault: PropTypes.object.isRequired
 }
 
-export default VaultClaim
+export default Claim

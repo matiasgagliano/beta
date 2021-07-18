@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux'
 import { render, screen } from '@testing-library/react'
 import configureStore from 'redux-mock-store'
-import VaultClaim from './vaultClaim'
+import Claim from './claim'
 
 const mockStore = configureStore([])
 
@@ -26,7 +26,7 @@ describe('vault claim component render', () => {
 
     render(
       <Provider store={store}>
-        <VaultClaim {...props} />
+        <Claim {...props} />
       </Provider>
     )
 
