@@ -30,7 +30,7 @@ const Header = props => (
         <ul className="navbar-nav me-auto mb-2 mb-lg-0 mt-lg-2 ms-lg-4 order-1 order-lg-0">
           <li className="nav-item">
             <Link href="/referrals">
-              <a className="nav-link">
+              <a className="nav-link btn btn-outline-primary text-white me-3 mt-3 mt-lg-0">
                 Referrals
               </a>
             </Link>
