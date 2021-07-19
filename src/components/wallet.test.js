@@ -53,7 +53,7 @@ describe('disconnected wallet component render', () => {
       </Provider>
     )
 
-    const linkElement = screen.getByText(/Wallet/i)
+    const linkElement = screen.getByText(/Connect/i)
 
     expect(linkElement).toBeInTheDocument()
   })

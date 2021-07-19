@@ -28,7 +28,7 @@ const Header = props => (
         <Wallet />
 
         <ul className="navbar-nav me-auto mb-2 mb-lg-0 mt-lg-2 ms-lg-4 order-1 order-lg-0">
-          <li className="nav-item">
+          <li className="nav-item d-none d-lg-inline">
             <Link href="/referrals">
               <a className="nav-link btn btn-outline-primary text-white me-3 mt-3 mt-lg-0">
                 Referrals

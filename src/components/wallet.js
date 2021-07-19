@@ -14,7 +14,7 @@ const addressLabel = (address, status) => {
   } else if (status === 'loading') {
     return 'Connecting...'
   } else {
-    return 'Connect wallet'
+    return 'Connect'
   }
 }
 

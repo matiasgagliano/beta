@@ -29,7 +29,7 @@ describe('app component render', () => {
 
     const depositedElements = screen.getAllByText(/Deposited/i)
     const tvlElements = screen.getAllByText(/TVL/i)
-    const linkElement = screen.getByText(/Wallet/i)
+    const linkElement = screen.getByText(/Connect/i)
 
     depositedElements.forEach(depositedElement => {
       expect(depositedElement).toBeInTheDocument()
