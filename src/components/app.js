@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
 import Header from './header'
+import Experimental from './experimental'
 import Tvl from './tvl'
 import Deposited from './deposited'
 import ReferralButton from './referralButton'
@@ -28,6 +29,7 @@ const App = () => {
 
   return (
     <div className="container">
+      <Experimental />
       <Header />
       <ReferralButton />
       <Tvl />
