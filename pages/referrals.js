@@ -2,7 +2,7 @@ import React from 'react'
 import Head from 'next/head'
 import Referrals from '../src/components/referrals'
 
-export default function Home() {
+const ReferralsPage = () => {
   return (
     <React.Fragment>
       <Head>
@@ -13,3 +13,5 @@ export default function Home() {
     </React.Fragment>
   )
 }
+
+export default ReferralsPage
