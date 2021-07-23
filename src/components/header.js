@@ -37,6 +37,14 @@ const Header = props => (
           </li>
 
           <li className="nav-item">
+            <Link href="/airdrop">
+              <a className="nav-link">
+                Airdrop
+              </a>
+            </Link>
+          </li>
+
+          <li className="nav-item">
             <Link href="https://docs.2pi.finance/how-to-guide">
               <a className="nav-link" target="_blank" rel="noreferrer">
                 How-to guide

@@ -1,19 +1,19 @@
 import Experimental from './experimental'
 import Header from './header'
+import AirdropClaim from './airdropClaim'
 import Footer from './footer'
 import Toasts from './toasts'
-import Referral from './referral'
 
-const Referrals = () => {
+const Airdrop = () => {
   return (
     <div className="container">
       <Experimental />
       <Header />
-      <Referral />
+      <AirdropClaim />
       <Toasts />
       <Footer />
     </div>
   )
 }
 
-export default Referrals
+export default Airdrop
