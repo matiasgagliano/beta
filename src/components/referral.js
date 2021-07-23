@@ -5,15 +5,7 @@ import { useSelector } from 'react-redux'
 import { selectStatus } from '../features/walletSlice'
 
 const Referral = () => {
-  const status  = useSelector(selectStatus)
-
-  const renderAction = () => {
-    if (status === 'success') {
-      return <ReferralLink />
-    } else {
-      return <ReferralUnlock />
-    }
-  }
+  const status = useSelector(selectStatus)
 
   return (
     <div className="card my-4 shadow-none">
@@ -38,7 +30,7 @@ const Referral = () => {
           </div>
         </div>
 
-        {renderAction()}
+        {status === 'success' ? <ReferralLink /> : <ReferralUnlock />}
       </div>
     </div>
   )
