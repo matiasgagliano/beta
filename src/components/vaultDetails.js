@@ -27,7 +27,7 @@ const VaultDetails = props => {
   return (
     <React.Fragment>
       <div className="text-center">
-        <Image src={`/../images/tokens/${vault.token}.svg`} alt={vault.token} height="48" width="48" />
+        <Image src={`../images/tokens/${vault.token}.svg`} alt={vault.token} height="48" width="48" unoptimized={true} />
 
         <h3 className="h4 mt-2 mb-1">
           {vault.symbol}
