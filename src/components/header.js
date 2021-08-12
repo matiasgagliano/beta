@@ -9,7 +9,7 @@ const Header = props => (
       <Link href="/">
         <a className="navbar-brand me-auto pt-lg-2">
           <div className="mt-1 pt-1">
-            <Image src={`/${props.path ?? '.'}/images/logo.svg`} alt="2pi Finance" width="149" height="24" />
+            <Image src={`${props.path ?? '.'}/images/logo.svg`} alt="2pi Finance" width="149" height="24" unoptimized={true} />
           </div>
         </a>
       </Link>

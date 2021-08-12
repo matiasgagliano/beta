@@ -10,7 +10,7 @@ const VaultItem = props => {
       <div className="card-body ms-2">
         <div className="row align-items-center cursor-pointer">
           <div className="col-3 col-md-2 col-lg-2 pt-1">
-            <Image src={`/images/tokens/${props.token}.svg`} alt={props.token} height="48" width="48" />
+            <Image src={`/images/tokens/${props.token}.svg`} alt={props.token} height="48" width="48" unoptimized={true} />
           </div>
           <div className="col-9 col-md-10 col-lg-3">
             <Link href={`/vaults/${props.vaultKey}`}>
