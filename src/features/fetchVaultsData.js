@@ -20,6 +20,8 @@ const helpers = {
 
     if (vault.pool === 'curve') {
       apy = 0.1324 // To be really calculated
+    } else if (vault.token === '2Pi') {
+      apy = 0.1
     } else {
       apy    = getVaultApy(vault, dataProvider, distributionManager, prices)
       altApy = getVaultApy(vault, dataProvider, distributionManager, prices, 0)
@@ -34,9 +36,16 @@ const call = (promises, keys, chainId, dispatch, order) => {
     const extraData = []
     const prices    = data.pop()
 
+
     helpers.chunk(data.flat(), keys.length).forEach((chunkedData, i) => {
       let dataProvider
       let distributionManager = {}
+
+      let a = vaults[chainId][i].token
+
+      if (a === '2Pi') {
+        // debugger
+      }
 
       extraData[i] = {}
 
@@ -72,10 +81,11 @@ const call = (promises, keys, chainId, dispatch, order) => {
         distributionManager,
         prices
       )
+
     })
 
     const vaultsData = vaults[chainId].map((vault, i) => {
-      const usdPrice = prices && prices[vault.priceId]['usd']
+      const usdPrice = prices && prices[vault.priceId] && prices[vault.priceId]['usd']
 
       return {
         ...vault,
@@ -95,6 +105,7 @@ const call = (promises, keys, chainId, dispatch, order) => {
     )
     dispatch(toastDestroyed('Data loading error'))
   }).catch(error => {
+    console.log(error)
     dispatch(
       toastAdded({
         title: 'Data loading error',
@@ -131,7 +142,11 @@ const getKeys = address => {
 
 const vaultAbi = (v, chainId) => {
   if (chainId === 80001) {
-    return require(`../abis/main/${chainId}/archimedes`).default
+    if (v.token === '2Pi') {
+      return require(`../abis/main/${chainId}/2Pi`).default
+    } else {
+      return require(`../abis/main/${chainId}/archimedes`).default
+    }
   } else {
     return require(`../abis/vaults/${chainId}/${v.pool}-${v.token}`).default
   }
@@ -141,6 +156,7 @@ const getCalls = (address, chainId, ethcallProvider, v) => {
   const vault         = vaultAbi(v, chainId)
   const token         = require(`../abis/tokens/${chainId}/${v.token}`).default
   const vaultContract = new Contract(vault.address, vault.abi)
+  const notPiToken    = v.token != '2Pi'
 
   let results, decimals, balance, allowance
 
@@ -152,7 +168,7 @@ const getCalls = (address, chainId, ethcallProvider, v) => {
     allowance = tokenContract.allowance(address, vault.address)
   } else {
     // MATIC is native so it needs other functions
-    if (chainId === 80001) {
+    if (chainId === 80001 && notPiToken) {
       decimals = vaultContract.decimals(v.pid) // same decimals
     } else {
       decimals = vaultContract.decimals() // same decimals
@@ -162,7 +178,7 @@ const getCalls = (address, chainId, ethcallProvider, v) => {
     allowance = ethcallProvider.getEthBalance(address) // fake allowance
   }
 
-  if (chainId === 80001) {
+  if (chainId === 80001 && notPiToken) {
     results = [
       decimals,
       vaultContract.getPricePerFullShare(v.pid),
@@ -200,7 +216,7 @@ const getCalls = (address, chainId, ethcallProvider, v) => {
   if (address) {
     let balanceCall, pendingTokensCall
 
-    if (chainId === 80001) {
+    if (chainId === 80001 && vaultContract.pendingPiToken) {
       balanceCall       = vaultContract.balanceOf(v.pid, address)
       pendingTokensCall = vaultContract.pendingPiToken(v.pid, address)
     } else {

@@ -51,7 +51,7 @@ const Withdraw = props => {
 
     let call
 
-    if (chainId === 80001) {
+    if (chainId === 80001 && props.token != '2Pi') {
       call = vaultContract.methods.withdraw(props.pid, amount)
     } else {
       call = vaultContract.methods.withdraw(amount)
@@ -101,7 +101,7 @@ const Withdraw = props => {
 
     let call
 
-    if (chainId === 80001) {
+    if (chainId === 80001 && props.token != '2Pi') {
       call = vaultContract.methods.withdrawAll(props.pid)
     } else {
       call = vaultContract.methods.withdrawAll()

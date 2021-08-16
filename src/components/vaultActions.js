@@ -29,7 +29,11 @@ const VaultActions = props => {
   const getVaultData = () => {
     if (supportedChains.includes(chainId)) {
       if (chainId === 80001) {
-        return require(`../abis/main/${chainId}/archimedes`).default
+        if (props.token === '2Pi') {
+          return require(`../abis/main/${chainId}/2Pi`).default
+        } else {
+          return require(`../abis/main/${chainId}/archimedes`).default
+        }
       } else {
         return require(`../abis/vaults/${chainId}/${props.pool}-${props.token}`).default
       }

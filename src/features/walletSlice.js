@@ -1,8 +1,10 @@
+import { env } from 'process'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import WalletModal from '../helpers/walletModal'
 
-export const defaultChain    = 137
-export const supportedChains = [defaultChain, 1337, 80001]
+export const defaultChain    = 80001
+// export const defaultChain    = env.CHAIN_ID ? parseInt(env.CHAIN_ID, 10) : 137
+export const supportedChains = [137, 1337, 80001]
 
 export const connectAsync = createAsyncThunk(
   'wallet/connectAsync',

@@ -55,18 +55,30 @@ const Deposit = props => {
 
     let call
 
-    // Native Matic vault
-    if (vaultContract.methods.depositMATIC) {
-      call = vaultContract.methods.depositMATIC().send({
-        from:  props.address,
-        value: amount
-      })
-    } else if (chainId === 80001) {
-      call = vaultContract.methods.deposit(props.pid, amount, referral).send({
-        from: props.address
-      })
+    if (chainId === 80001) {
+      if (props.token === 'matic') {
+        call = vaultContract.methods.depositMATIC(props.pid, referral).send({
+          from: props.address,
+          value: amount
+        })
+      } else if (props.token === '2Pi') {
+        call = vaultContract.methods.deposit(amount).send({
+          from: props.address
+        })
+      } else {
+        call = vaultContract.methods.deposit(props.pid, amount, referral).send({
+          from: props.address
+        })
+      }
     } else {
-      call = vaultContract.methods.deposit(amount).send({ from: props.address })
+      if (props.token === 'matic') {
+        call = vaultContract.methods.depositMATIC().send({
+          from: props.address,
+          value: amount
+        })
+      } else {
+        call = vaultContract.methods.deposit(amount).send({ from: props.address })
+      }
     }
 
     call.on('transactionHash', hash => {
@@ -111,7 +123,17 @@ const Deposit = props => {
 
     let call
 
-    if (vaultContract.methods.depositMATIC) {
+    if (chainId === 80001) {
+      if (props.token === '2Pi') {
+        call = vaultContract.methods.depositAll().send({
+          from: props.address
+        })
+      } else {
+        call = vaultContract.methods.depositAll(props.pid).send({
+          from: props.address
+        })
+      }
+    } else if (vaultContract.methods.depositMATIC) {
       let amount = maxMaticDepositAmount(props.balance)
 
       if (!amount)
@@ -119,10 +141,6 @@ const Deposit = props => {
 
       call = vaultContract.methods.depositMATIC().send({
         from: props.address, value: amount.toFixed()
-      })
-    } else if (chainId === 80001) {
-      call = vaultContract.methods.depositAll(props.pid).send({
-        from: props.address
       })
     } else {
       call = vaultContract.methods.depositAll().send({ from: props.address })
