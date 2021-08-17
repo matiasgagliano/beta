@@ -15,6 +15,16 @@ const localhostVauls = [
 
 const polygonVaults = [
   {
+    key:     '2Pi',
+    token:   '2Pi',
+    earn:    '2PI',
+    priceId: 'dai',
+    uses:    '2Pi',
+    symbol:  '2PI',
+    color:   'primary',
+    borrow:  { depth: 0, percentage: 0 }
+  },
+  {
     key:     'btc-curve',
     token:   'btc',
     earn:    'BTC',
@@ -34,7 +44,7 @@ const polygonVaults = [
     uses:    'Aave',
     pool:    'aave',
     symbol:  'DAI',
-    pid:     '3',
+    pid:     '1',
     color:   'primary',
     borrow:  { depth: 8, percentage: 0.73 }
   },
@@ -58,7 +68,7 @@ const polygonVaults = [
     uses:    'Aave',
     pool:    'aave',
     symbol:  'BTC',
-    pid:     '2',
+    pid:     '5',
     color:   'info',
     borrow:  { depth: 8, percentage: 0.68 }
   },
@@ -70,7 +80,7 @@ const polygonVaults = [
     uses:    'Aave',
     pool:    'aave',
     symbol:  'ETH',
-    pid:     '1',
+    pid:     '4',
     color:   'primary',
     borrow:  { depth: 8, percentage: 0.78 }
   },
@@ -82,7 +92,7 @@ const polygonVaults = [
     uses:    'Aave',
     pool:    'aave',
     symbol:  'USDC',
-    pid:     '4',
+    pid:     '3',
     color:   'primary-dark',
     borrow:  { depth: 8, percentage: 0.78 }
   },
@@ -94,16 +104,18 @@ const polygonVaults = [
     uses:    'Aave',
     pool:    'aave',
     symbol:  'USDT',
-    pid:     '5',
+    pid:     '2',
     color:   'info',
     borrow:  { depth: 0, percentage: 0 }
   }
 ]
 
 const vaults = {
-  137:   polygonVaults,
+  137:   polygonVaults.filter(vault => vault.pool),
   1337:  localhostVauls,
-  80001: polygonVaults.filter(vault => vault.pool === 'aave')
+  80001: polygonVaults.filter(
+    vault => vault.pool === 'aave' || vault.pool === undefined
+  )
 }
 
 export default vaults

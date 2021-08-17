@@ -1,4 +1,4 @@
-const address = '0xacf164E04D1eBFaC2c5197Bc6c2f03724ADEF3B3'
+const address = '0xf4ac02cC28c1baa306B2eFb8D9188e6F3ab65fc9'
 const abi     = [
   {
     'inputs': [
@@ -158,6 +158,19 @@ const abi     = [
     ],
     'name': 'Withdraw',
     'type': 'event'
+  },
+  {
+    'inputs': [],
+    'name': 'COMMISSION_RATE_PRECISION',
+    'outputs': [
+      {
+        'internalType': 'uint16',
+        'name': '',
+        'type': 'uint16'
+      }
+    ],
+    'stateMutability': 'view',
+    'type': 'function'
   },
   {
     'inputs': [],
@@ -330,6 +343,24 @@ const abi     = [
         'internalType': 'uint256',
         'name': '_pid',
         'type': 'uint256'
+      },
+      {
+        'internalType': 'address',
+        'name': '_referrer',
+        'type': 'address'
+      }
+    ],
+    'name': 'depositMATIC',
+    'outputs': [],
+    'stateMutability': 'payable',
+    'type': 'function'
+  },
+  {
+    'inputs': [
+      {
+        'internalType': 'uint256',
+        'name': '_pid',
+        'type': 'uint256'
       }
     ],
     'name': 'emergencyWithdraw',
@@ -473,25 +504,6 @@ const abi     = [
   {
     'inputs': [
       {
-        'internalType': 'contract IERC20',
-        'name': '',
-        'type': 'address'
-      }
-    ],
-    'name': 'poolExistence',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
         'internalType': 'uint256',
         'name': '',
         'type': 'uint256'
@@ -543,12 +555,12 @@ const abi     = [
   },
   {
     'inputs': [],
-    'name': 'referral',
+    'name': 'referralCommissionRate',
     'outputs': [
       {
-        'internalType': 'contract IReferral',
+        'internalType': 'uint16',
         'name': '',
-        'type': 'address'
+        'type': 'uint16'
       }
     ],
     'stateMutability': 'view',
@@ -556,12 +568,12 @@ const abi     = [
   },
   {
     'inputs': [],
-    'name': 'referralCommissionRate',
+    'name': 'referralMgr',
     'outputs': [
       {
-        'internalType': 'uint16',
+        'internalType': 'contract IReferral',
         'name': '',
-        'type': 'uint16'
+        'type': 'address'
       }
     ],
     'stateMutability': 'view',
@@ -578,7 +590,7 @@ const abi     = [
     'inputs': [
       {
         'internalType': 'contract IReferral',
-        'name': '_referral',
+        'name': '_newReferral',
         'type': 'address'
       }
     ],
@@ -611,6 +623,44 @@ const abi     = [
       }
     ],
     'stateMutability': 'view',
+    'type': 'function'
+  },
+  {
+    'inputs': [
+      {
+        'internalType': 'address',
+        'name': '',
+        'type': 'address'
+      },
+      {
+        'internalType': 'address',
+        'name': 'from',
+        'type': 'address'
+      },
+      {
+        'internalType': 'address',
+        'name': '',
+        'type': 'address'
+      },
+      {
+        'internalType': 'uint256',
+        'name': 'amount',
+        'type': 'uint256'
+      },
+      {
+        'internalType': 'bytes',
+        'name': '',
+        'type': 'bytes'
+      },
+      {
+        'internalType': 'bytes',
+        'name': '',
+        'type': 'bytes'
+      }
+    ],
+    'name': 'tokensReceived',
+    'outputs': [],
+    'stateMutability': 'nonpayable',
     'type': 'function'
   },
   {
@@ -749,6 +799,19 @@ const abi     = [
     'name': 'withdrawAll',
     'outputs': [],
     'stateMutability': 'nonpayable',
+    'type': 'function'
+  },
+  {
+    'inputs': [],
+    'name': 'wmatic',
+    'outputs': [
+      {
+        'internalType': 'contract IWMATIC',
+        'name': '',
+        'type': 'address'
+      }
+    ],
+    'stateMutability': 'view',
     'type': 'function'
   }
 ]
