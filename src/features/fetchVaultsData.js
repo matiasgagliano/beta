@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { Contract, Provider, setMulticallAddress } from 'ethers-multicall'
 import vaults from '../data/vaults'
-import { vaultsLoaded } from './vaultsSlice'
+import { vaultsLoaded, vaultsFetchError } from './vaultsSlice'
 import { toastAdded, toastDestroyed } from './toastsSlice'
 import { getVaultApy } from '../helpers/apy'
 import { getEthersProvider } from '../helpers/ethers'
@@ -31,7 +31,7 @@ const helpers = {
   }
 }
 
-const call = (promises, keys, chainId, dispatch, order) => {
+const call = (promises, keys, chainId, dispatch, order, errors) => {
   Promise.all(promises).then(data => {
     const extraData = []
     const prices    = data.pop()
@@ -97,14 +97,19 @@ const call = (promises, keys, chainId, dispatch, order) => {
     )
     dispatch(toastDestroyed('Data loading error'))
   }).catch(error => {
-    dispatch(
-      toastAdded({
-        title: 'Data loading error',
-        body:  "We can't reach out some resources, please refresh the page and try again",
-        icon:  'exclamation-triangle',
-        style: 'danger'
-      })
-    )
+    dispatch(vaultsFetchError())
+
+    // Do not complain on first fetch error since they are so frequent
+    if (errors > 2) {
+      dispatch(
+        toastAdded({
+          title: 'Data loading error',
+          body:  "We can't reach out some resources, please refresh the page and try again",
+          icon:  'exclamation-triangle',
+          style: 'danger'
+        })
+      )
+    }
   })
 }
 
@@ -226,7 +231,8 @@ export async function fetchVaultsData (
   provider,
   web3,
   dispatch,
-  order
+  order,
+  errors
 ) {
   // Localhost address
   setMulticallAddress(1337, process.env.NEXT_PUBLIC_LOCAL_MULTICALL_ADDR)
@@ -246,5 +252,5 @@ export async function fetchVaultsData (
     getPrices(vaults[chainId], dispatch)
   ]
 
-  call(promises, keys, chainId, dispatch, order)
+  call(promises, keys, chainId, dispatch, order, errors)
 }
