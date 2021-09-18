@@ -12,7 +12,7 @@ const VaultPage = () => {
     return (
       <React.Fragment>
         <Head>
-          <title>2pi Finance</title>
+          <title>2pi</title>
         </Head>
 
         <Vault id={id} />

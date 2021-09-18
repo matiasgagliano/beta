@@ -30,7 +30,7 @@ const Network = () => {
 
   return (
     <div className={`d-flex mt-lg-0 ${margin}`}>
-      <div className={`card border-${style}`}>
+      <div className={`card bg-blur border-${style}`}>
         <div className="d-flex align-items-center card-body py-2">
           <Image src={`/images/networks/${networkLogo(chainId)}`} alt={network} width="32" height="32" unoptimized={true} />
           <span className="ms-3">

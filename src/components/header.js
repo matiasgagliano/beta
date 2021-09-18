@@ -7,10 +7,13 @@ const Header = props => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-transparent mt-1">
     <div className="container">
       <Link href="/">
-        <a className="navbar-brand me-auto pt-lg-2">
-          <div className="mt-1 pt-1">
-            <Image src={`${props.path ?? '.'}/images/logo.svg`} alt="2pi Finance" width="149" height="24" unoptimized={true} />
-          </div>
+        <a className="navbar-brand me-auto mt-n2 ms-n4 d-none d-lg-inline">
+          <Image src={`${props.path ?? '.'}/images/logo.svg`} alt="2pi" width="136" height="108" unoptimized={true} />
+        </a>
+      </Link>
+      <Link href="/">
+        <a className="navbar-brand me-auto ms-n3 d-lg-none">
+          <Image src={`${props.path ?? '.'}/images/logo.svg`} alt="2pi" width="95" height="76" unoptimized={true} />
         </a>
       </Link>
 

@@ -9,7 +9,7 @@ const Referral = () => {
 
   return (
     <div className="card my-4 shadow-none">
-      <div className="card-body text-center bg-dark border border-primary border-2 rounded px-lg-5 py-lg-4">
+      <div className="card-body text-center bg-blur border border-primary border-2 rounded px-lg-5 py-lg-4">
         <div className="text-start mb-0">
           <Back />
         </div>
