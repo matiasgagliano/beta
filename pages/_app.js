@@ -15,27 +15,28 @@ if (release) {
   Sentry.init({ dsn, release, integrations, tracesSampleRate: 1.0 })
 }
 
-const App = ({ Component, pageProps }) => {
-  const router                = useRouter()
+const useLoading = () => {
+  const routerEvents          = useRouter().events
   const [loading, setLoading] = useState(false)
 
-  const handleRouteStart = () => {
-    setLoading(true)
-  }
-
-  const handleRouteComplete = () => {
-    setLoading(false)
-  }
+  const handleRouteStart    = () => { setLoading(true) }
+  const handleRouteComplete = () => { setLoading(false) }
 
   useEffect(() => {
-    router.events.on('routeChangeStart', handleRouteStart)
-    router.events.on('routeChangeComplete', handleRouteComplete)
+    routerEvents.on('routeChangeStart', handleRouteStart)
+    routerEvents.on('routeChangeComplete', handleRouteComplete)
 
     return () => {
-      router.events.off('routeChangeStart', handleRouteStart)
-      router.events.off('routeChangeComplete', handleRouteComplete)
+      routerEvents.off('routeChangeStart', handleRouteStart)
+      routerEvents.off('routeChangeComplete', handleRouteComplete)
     }
-  }, [router.events])
+  }, [routerEvents])
+
+  return loading
+}
+
+const App = ({ Component, pageProps }) => {
+  const loading = useLoading()
 
   return (
     <Provider store={store}>
